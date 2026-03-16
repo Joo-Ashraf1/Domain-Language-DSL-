@@ -1,9 +1,10 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-%}
 int yylex();
 void yyerror(const char *s);
+%}
+
 
 %union{
     int num;
@@ -12,12 +13,12 @@ void yyerror(const char *s);
 
 %token<num> NUMBER;
 %token EOL;
-%token MINUS
-%token MULT
-%token PLUS
-%token CLOSING
-%token OPEN
-%token DIVISION
+%token MINUS;
+%token MULT;
+%token PLUS;
+%token CLOSING;
+%token OPEN;
+%token DIVISION;
 
 
 %left PLUS MINUS
@@ -38,18 +39,27 @@ line:
 
 
 expression:
-    term  {$$=$1} | 
-    expression PLUS term {$$=$1 + $3}|
-    expression MINUS term {$$=$1-$3}
+    term  {$$=$1;} | 
+    expression PLUS term {$$=$1 + $3;}|
+    expression MINUS term {$$=$1-$3;}
 
 term:
-    term MULT factor{$$=$1 * $3}|
-    term DIVISION factor{$$=$1 / $3}|
-    factor{$$=$1};
+    term MULT factor{$$=$1 * $3;}|
+    term DIVISION factor{
+        if($3 ==0){
+            yyerror("division by zero occured");
+            $$=0;
+        }
+        else{
+            $$= $1 /$3;
+        }
+    }
+    |
+    factor{$$=$1;};
 
 factor:
-    NUMBER{$$=$1}|
-    OPEN expression CLOSING{$$=$2};
+    NUMBER{$$=$1;}|
+    OPEN expression CLOSING{$$=$2;};
 
 %%
 
