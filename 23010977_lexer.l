@@ -3,11 +3,14 @@
 %}
 
 %%
-[0-9]+ {return NUMBER; } 
+[0-9]+ {return NUMBER; }
+
+"+" {return PLUS}
+"-" {return MINUS}
+"/" {return DIVISION}
+"*" {return MULT}
+"(" {return OPEN}
+")" { return CLOSING}
 "\n" {EOL;}
 %%
 
-int main(int argc, char **argv) {
-    yylex();
-    return 0;
-}
