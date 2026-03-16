@@ -1,6 +1,9 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 %}
+int yylex();
+void yyerror(const char *s);
 
 %union{
     int num;
@@ -17,33 +20,41 @@
 %token DIVISION
 
 
+%left PLUS MINUS
+%left MULT DIVISION
+
 %%
+
+
 input:
-    line input
+    |
+    input line
     ;
+
 
 line:
     expression EOL{printf("Answer:%d",$1);}
-|   EOL;
+    | EOL;
+
 
 expression:
-    term|
-    expression PLUS term {expression+term}|
-    expression MINUS term {expression-term}
+    term  {$$=$1} | 
+    expression PLUS term {$$=$1 + $3}|
+    expression MINUS term {$$=$1-$3}
 
 term:
-    term MULT factor{term*factor}|
-    term DIVISION factor{term/factor}|
-    factor{factor};
+    term MULT factor{$$=$1 * $3}|
+    term DIVISION factor{$$=$1 / $3}|
+    factor{$$=$1};
 
 factor:
-    NUMBER| expression;
+    NUMBER{$$=$1}|
+    OPEN expression CLOSING{$$=$2};
 
 %%
 
-int yyerror(char *s) {
+void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
-    return 0;
 }
 
 int main() {
