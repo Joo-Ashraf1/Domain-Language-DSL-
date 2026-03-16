@@ -3,6 +3,7 @@
 #include <stdlib.h>
 int yylex();
 void yyerror(const char *s);
+int error_flag;
 %}
 
 
@@ -39,8 +40,15 @@ input:
 
 
 line:
-    expression EOL{printf("Answer:%d",$1);}
-    | EOL;
+    expression EOL {
+        if (!error_flag) {           
+            printf("Answer: %d\n", $1);
+            fflush(stdout);
+        }
+        error_flag = 0;             
+    }
+  | EOL
+  ;
 
 
 expression:
@@ -53,6 +61,7 @@ term:
     term DIVISION factor{
         if($3 ==0){
             yyerror("division by zero occured");
+            error_flag= 1;
             $$=0;
         }
         else{

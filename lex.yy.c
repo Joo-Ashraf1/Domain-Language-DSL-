@@ -446,7 +446,7 @@ char *yytext;
 #line 1 "23010977_lexer.l"
 #line 2 "23010977_lexer.l"
 #include <stdio.h>
-#include "parser.tab.h"
+#include "23010977_parser.tab.h"
 #include <stdlib.h>
 #line 452 "lex.yy.c"
 #line 453 "lex.yy.c"

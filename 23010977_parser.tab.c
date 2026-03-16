@@ -73,8 +73,9 @@
 #include <stdlib.h>
 int yylex();
 void yyerror(const char *s);
+int error_flag;
 
-#line 78 "23010977_parser.tab.c"
+#line 79 "23010977_parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -505,8 +506,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    35,    35,    37,    42,    43,    47,    48,    49,    52,
-      53,    63,    66,    67
+       0,    36,    36,    38,    43,    50,    55,    56,    57,    60,
+      61,    72,    75,    76
 };
 #endif
 
@@ -1076,69 +1077,76 @@ yyreduce:
   switch (yyn)
     {
   case 4: /* line: expression EOL  */
-#line 42 "23010977_parser.y"
-                  {printf("Answer:%d",(yyvsp[-1].num));}
-#line 1082 "23010977_parser.tab.c"
+#line 43 "23010977_parser.y"
+                   {
+        if (!error_flag) {           
+            printf("Answer: %d\n", (yyvsp[-1].num));
+            fflush(stdout);
+        }
+        error_flag = 0;             
+    }
+#line 1089 "23010977_parser.tab.c"
     break;
 
   case 6: /* expression: term  */
-#line 47 "23010977_parser.y"
+#line 55 "23010977_parser.y"
           {(yyval.num)=(yyvsp[0].num);}
-#line 1088 "23010977_parser.tab.c"
+#line 1095 "23010977_parser.tab.c"
     break;
 
   case 7: /* expression: expression PLUS term  */
-#line 48 "23010977_parser.y"
+#line 56 "23010977_parser.y"
                            {(yyval.num)=(yyvsp[-2].num) + (yyvsp[0].num);}
-#line 1094 "23010977_parser.tab.c"
+#line 1101 "23010977_parser.tab.c"
     break;
 
   case 8: /* expression: expression MINUS term  */
-#line 49 "23010977_parser.y"
+#line 57 "23010977_parser.y"
                             {(yyval.num)=(yyvsp[-2].num)-(yyvsp[0].num);}
-#line 1100 "23010977_parser.tab.c"
+#line 1107 "23010977_parser.tab.c"
     break;
 
   case 9: /* term: term MULT factor  */
-#line 52 "23010977_parser.y"
+#line 60 "23010977_parser.y"
                     {(yyval.num)=(yyvsp[-2].num) * (yyvsp[0].num);}
-#line 1106 "23010977_parser.tab.c"
+#line 1113 "23010977_parser.tab.c"
     break;
 
   case 10: /* term: term DIVISION factor  */
-#line 53 "23010977_parser.y"
+#line 61 "23010977_parser.y"
                         {
         if((yyvsp[0].num) ==0){
             yyerror("division by zero occured");
+            error_flag= 1;
             (yyval.num)=0;
         }
         else{
             (yyval.num)= (yyvsp[-2].num) /(yyvsp[0].num);
         }
     }
-#line 1120 "23010977_parser.tab.c"
+#line 1128 "23010977_parser.tab.c"
     break;
 
   case 11: /* term: factor  */
-#line 63 "23010977_parser.y"
+#line 72 "23010977_parser.y"
           {(yyval.num)=(yyvsp[0].num);}
-#line 1126 "23010977_parser.tab.c"
+#line 1134 "23010977_parser.tab.c"
     break;
 
   case 12: /* factor: NUMBER  */
-#line 66 "23010977_parser.y"
+#line 75 "23010977_parser.y"
           {(yyval.num)=(yyvsp[0].num);}
-#line 1132 "23010977_parser.tab.c"
+#line 1140 "23010977_parser.tab.c"
     break;
 
   case 13: /* factor: OPEN expression CLOSING  */
-#line 67 "23010977_parser.y"
+#line 76 "23010977_parser.y"
                            {(yyval.num)=(yyvsp[-1].num);}
-#line 1138 "23010977_parser.tab.c"
+#line 1146 "23010977_parser.tab.c"
     break;
 
 
-#line 1142 "23010977_parser.tab.c"
+#line 1150 "23010977_parser.tab.c"
 
       default: break;
     }
@@ -1331,7 +1339,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 69 "23010977_parser.y"
+#line 78 "23010977_parser.y"
 
 
 void yyerror(const char *s) {
