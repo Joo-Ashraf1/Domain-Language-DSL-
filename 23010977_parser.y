@@ -11,18 +11,23 @@ void yyerror(const char *s);
 }
 
 
-%token<num> NUMBER;
-%token EOL;
-%token MINUS;
-%token MULT;
-%token PLUS;
-%token CLOSING;
-%token OPEN;
-%token DIVISION;
+
+%token <num> NUMBER
+%token EOL
+%token MINUS
+%token MULT
+%token PLUS
+%token CLOSING
+%token OPEN
+%token DIVISION
 
 
 %left PLUS MINUS
 %left MULT DIVISION
+
+%type <num> expression
+%type <num> term
+%type <num> factor
 
 %%
 
@@ -39,9 +44,9 @@ line:
 
 
 expression:
-    term  {$$=$1;} | 
-    expression PLUS term {$$=$1 + $3;}|
-    expression MINUS term {$$=$1-$3;}
+    term  {$$=$1;} 
+    | expression PLUS term {$$=$1 + $3;}
+    | expression MINUS term {$$=$1-$3;};
 
 term:
     term MULT factor{$$=$1 * $3;}|
