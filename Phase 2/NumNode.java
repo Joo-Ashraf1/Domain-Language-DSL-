@@ -9,9 +9,11 @@ class NumNode extends ASTNode {
     public int evaluate() {
         return value;
     }
+    
 
     @Override
     public void print(String prefix) {
         System.out.println(prefix+this.value);
+        
     }
 }
