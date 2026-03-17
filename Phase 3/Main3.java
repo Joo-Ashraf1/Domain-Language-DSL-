@@ -7,23 +7,31 @@ public class Main3 {
         while (scanner.hasNextLine()) {
             String input = scanner.nextLine().trim();
             if (input.isEmpty()) continue;
-            
-            // Build AST (needed for transformation)
+            System.out.println("Input: " + input);
+
             Parser parser = new Parser(input);
             ASTNode root = parser.parse();
-            
-            // Transform to prefix
+
             AstToPrefix transformer = new AstToPrefix();
             String prefix = transformer.transform(root);
-            
-            // Evaluate prefix
-            EvaluatePrefix evaluator = new EvaluatePrefix();
-            int result = evaluator.evaluate(prefix);
-            
-            // Output
-            System.out.println("Input: " + input);
             System.out.println("Prefix Form: " + prefix);
-            System.out.println("Final Result: " + result);
+
+            try{
+                EvaluatePrefix evaluator = new EvaluatePrefix();
+                int result = evaluator.evaluate(prefix);
+                System.out.println("Final Result: " + result);
+            }
+            catch (ArithmeticException e) {
+                System.out.println("Math Error: " + e.getMessage());
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            
+
+
+
+
             System.out.println("----------");
         }
     }

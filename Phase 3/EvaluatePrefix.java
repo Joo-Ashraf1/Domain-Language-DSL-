@@ -31,7 +31,10 @@ public class EvaluatePrefix {
             if (op == '+') return left + right;
             if (op == '-') return left - right;
             if (op == '*') return left * right;
-            return left / right;
+            else{
+                if (right == 0) throw new ArithmeticException("Division by zero");
+                return left / right;
+            }
         }
     }
     
