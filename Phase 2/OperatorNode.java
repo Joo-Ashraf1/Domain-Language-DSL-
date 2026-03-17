@@ -40,6 +40,8 @@ class OperatorNode extends ASTNODE{
     @Override
     public void print(String prefix) {
         System.out.println(prefix+this.operator);
+        this.left.print(prefix+"|  ");
+        this.right.print(prefix+"\  ");
     }
 
 
