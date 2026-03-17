@@ -1,7 +1,7 @@
-class OperatorNode extends ASTNODE{
+class OperatorNode extends ASTNode {
     private char operator;
-    private ASTNODE left;
-    private ASTNODE right;
+    private ASTNode left;
+    private ASTNode right;
 
     public OperatorNode(char operator) {
         this.operator = operator;
@@ -40,8 +40,10 @@ class OperatorNode extends ASTNODE{
     @Override
     public void print(String prefix) {
         System.out.println(prefix+this.operator);
-        this.left.print(prefix+"|  ");
-        this.right.print(prefix+"\  ");
+        int level=prefix.length()/4;
+        String indent="   ".repeat(level);
+        this.left.print(indent+"|--");
+        this.right.print(indent+"\\--");
     }
 
 
