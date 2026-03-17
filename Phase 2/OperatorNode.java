@@ -39,11 +39,11 @@ class OperatorNode extends ASTNode {
 
     @Override
     public void print(String prefix) {
-        System.out.println(prefix+this.operator);
-        int level=prefix.length()/4;
-        String indent="   ".repeat(level);
-        this.left.print(indent+"|--");
-        this.right.print(indent+"\\--");
+        System.out.println(prefix + " "+ this.operator);
+        String indent = prefix.replaceAll("[|\\\\]--", "    ");
+ 
+        this.left.print(indent + "|--");
+        this.right.print(indent +"\\--");
     }
 
 

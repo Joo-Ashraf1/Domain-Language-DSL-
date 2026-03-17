@@ -16,4 +16,8 @@ class NumNode extends ASTNode {
         System.out.println(prefix+this.value);
         
     }
+
+    public int getValue(){
+        return this.value;
+    }
 }
